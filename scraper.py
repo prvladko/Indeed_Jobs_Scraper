@@ -1,6 +1,7 @@
 # import os
 from asyncore import compact_traceback
 from msilib import add_stream
+from xml.dom.pulldom import SAX2DOM
 import requests
 from bs4 import BeautifulSoup # webscrape
 from collections import defaultdict # default dictionary: store a list with each key
@@ -45,6 +46,29 @@ for page in range(no_of_pages):
  #           print(job_title.find('a').text)
             jobs=job_title.find('a').text
 
+        # Company Name:
+
+        if i.find('span',{'class':'companyName'}) != None:
+            company = i.find('span',{'class':'companyName'}).text
+
+        # Links:
+
+        if i.find('a') != None:
+            print(i.find('a'))
+            print(i.find('a',{'class':'jcs-JobTitle'})['href'])
+            links = i.find('a',{'class':'jcs-JobTitle'})['href']
+
+        # Salary if available:
+
+        if i.find('div',{'class':'attribute_snippet'}) != None:
+            salary = i.find('div',{'class':'attribute_snippet'}).text
+        else:
+            salary='No Salary'
+
+        # Job Post Date:
+
+        if i.find('span', attrs={'class': 'date'}) != None:
+            post_date = i.find('span', attrs={'class': 'date'}).text
 
 
 
