@@ -26,7 +26,7 @@ for page in range(no_of_pages):
     '&l=' + place + '&sort=date' +'&start='+ str(page * 10)
 
     # Get request to indeed with headers above (don't need headers!)
-    response = requests.get(url, headers=headers)
+    response = requests.get(url)
     html = response.text
 
     # Scrapping the Web (can use 'html' or 'lxml')
@@ -42,12 +42,22 @@ for page in range(no_of_pages):
 
         # Job Title:
 
-        job_title=i.find('h2',{'class':'jobTitle jobTitle-color-purple jobTitle-newJob'})
+        job_title=i.find('h2')
+#        job_title=i.find('h2',{'class':'jobTitle jobTitle-color-purple jobTitle-newJob'})
 #        print(job_title)
-        if job_title != None:
+ #       if job_title != None:
  #           print(job_title)
  #           print(job_title.find('a').text)
-            jobs=job_title.find('a').text
+ #           jobs=job_title.find('a').text
+        # 2022 AFTER WEBSITE CHANGES        
+        if job_title != None:
+    
+            jobs=job_title.find('span').text
+#                 print(job_titles)
+# #                 print('shit')
+#             else:
+# #                 jobs=job_title.find('a').text
+#                 print('shit')       
 
         # Company Name:
 
@@ -88,6 +98,7 @@ indeed_dict_list=defaultdict(list)
 # Fields for our DF
 
 indeed_spec=['Company', 'job', 'link', 'Salary', 'Job_Posted_date']
+
 print('These Href links will go to a new page containing full job description')
 print('\n')
 print(pd.DataFrame(indeed_posts,columns=indeed_spec)['link'][0]) 
