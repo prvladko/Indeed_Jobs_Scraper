@@ -1,4 +1,5 @@
 # import os
+from asyncore import compact_traceback
 from msilib import add_stream
 import requests
 from bs4 import BeautifulSoup # webscrape
@@ -27,3 +28,30 @@ for page in range(no_of_pages):
     # Scrapping the Web ('html' or 'lxml')
     soup = BeautifulSoup(html, 'lxml')
 
+    # Outer Most Entry Point of HTML:
+    outer_most_point=soup.find('div',attrs={'id': 'mosaic-provider-jobcards'})
+ #       print(outer_most_point) # "UL" lists where the data are stored:
+
+    # "UL" lists where the data are stored:
+    for i in outer_most_point.find('ul'):
+#        print(i.find('li'))
+
+        # Job Title:
+
+        job_title=i.find('h2',{'class':'jobTitle jobTitle-color-purple jobTitle-newJob'})
+        print(job_title)
+        if job_title != None:
+ #           print(job_title)
+ #           print(job_title.find('a').text)
+            jobs=job_title.find('a').text
+
+
+
+
+
+
+
+
+indeed_dict_list=defaultdict(list)
+
+indeed_spec=['Company', 'job', 'link', 'Salary', 'Job_Posted_date']
